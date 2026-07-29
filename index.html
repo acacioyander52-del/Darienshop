@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darienshop - Oferta Especial</title>
+  <title>Darienshop | Atendimento Direct</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,99 +11,113 @@
       padding: 0;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      color: #333;
     }
-    .container {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 30px 20px;
-      max-width: 450px;
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 35px 25px;
+      max-width: 420px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .logo {
+      font-size: 1.8em;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      color: #ffffff;
     }
     .badge {
-      background-color: #ff4757;
-      color: white;
-      font-weight: bold;
-      text-transform: uppercase;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
       font-size: 0.85em;
-      padding: 6px 14px;
-      border-radius: 20px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 50px;
       display: inline-block;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(96, 165, 250, 0.3);
     }
     h1 {
-      font-size: 1.8em;
-      color: #1e272e;
+      font-size: 1.4em;
+      font-weight: 600;
+      line-height: 1.4;
       margin-bottom: 15px;
-      line-height: 1.2;
-    }
-    .destaque {
-      color: #ff4757;
+      color: #f1f5f9;
     }
     p {
-      font-size: 1.05em;
-      color: #4b6584;
-      line-height: 1.5;
-      margin-bottom: 25px;
+      font-size: 0.95em;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 30px;
     }
     .btn-whatsapp {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       background-color: #25d366;
-      color: white;
+      color: #ffffff;
       text-decoration: none;
-      font-size: 1.1em;
-      font-weight: bold;
-      padding: 16px 24px;
-      border-radius: 50px;
+      font-size: 1.05em;
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 12px;
       width: 100%;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
       transition: transform 0.2s, background-color 0.2s;
     }
-    .btn-whatsapp:hover {
-      background-color: #1eb854;
-      transform: scale(1.02);
+    .btn-whatsapp:active {
+      transform: scale(0.98);
     }
-    .garantia {
-      margin-top: 20px;
-      font-size: 0.85em;
-      color: #a4b0be;
+    .info {
+      margin-top: 25px;
+      font-size: 0.8em;
+      color: #64748b;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <span class="badge">🔥 Promoção Exclusiva</span>
+  <div class="card">
+    <div class="logo">Darienshop</div>
     
-    <h1>Leve <span class="destaque">6 Produtos</span> Pela Metade do Preço!</h1>
+    <span class="badge">Atendimento Rápido</span>
+    
+    <h1>Procurando nossas ofertas e catálogo de produtos?</h1>
     
     <p>
-      Sua chance de renovar tudo economizando muito! Fale diretamente conosco agora mesmo no WhatsApp para garantir o seu kit com <strong>50% de desconto</strong>.
+      Atendemos diretamente pelo WhatsApp para tirar suas dúvidas, enviar fotos dos itens disponíveis e negociar os melhores valores.
     </p>
 
     <a href="#" class="btn-whatsapp" onclick="enviarMensagem()">
-      💬 Chamar no WhatsApp Agora
+      Falar no WhatsApp
     </a>
 
-    <p class="garantia">⚡ Resposta rápida & atendimento personalizado</p>
+    <div class="info">
+      <span>✓ Atendimento humano</span>
+      <span>•</span>
+      <span>✓ Envio para todo o Brasil</span>
+    </div>
   </div>
 
   <script>
     function enviarMensagem() {
       const numeroWhatsapp = "5569981217751";
-      const mensagem = "Olá! Vi a promoção no site e quero aproveitar a oferta de 6 produtos pela metade do preço!";
+      const mensagem = "Olá! Vim pelo site e gostaria de conhecer os produtos e valores disponíveis.";
       const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
     }
@@ -111,3 +125,4 @@
 
 </body>
 </html>
+
