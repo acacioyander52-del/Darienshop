@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darienshop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .produtos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .preco {
+      font-size: 1.2em;
+      color: #27ae60;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    button {
+      background-color: #25d366;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Darienshop</h1>
+
+  <div class="produtos">
+    <div class="card">
+      <h3>Produto Exemplo</h3>
+      <p class="preco">R$ 50,00</p>
+      <button onclick="comprar('Produto Exemplo', '50,00')">Comprar pelo WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    function comprar(nomeProduto, precoProduto) {
+      // TROQUE PELO SEU NÚMERO (Com DDD e 55 na frente)
+      const numeroWhatsapp = "5569981217751"; 
+      
+      const mensagem = `Olá! Tenho interesse em comprar: *${nomeProduto}* no valor de *R$ ${precoProduto}*.`;
+      const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
