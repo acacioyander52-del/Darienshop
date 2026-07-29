@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darienshop - Oferta Especial</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px 20px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    .badge {
+      background-color: #ff4757;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    h1 {
+      font-size: 1.8em;
+      color: #1e272e;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    .destaque {
+      color: #ff4757;
+    }
+    p {
+      font-size: 1.05em;
+      color: #4b6584;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #25d366;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+      font-weight: bold;
+      padding: 16px 24px;
+      border-radius: 50px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .btn-whatsapp:hover {
+      background-color: #1eb854;
+      transform: scale(1.02);
+    }
+    .garantia {
+      margin-top: 20px;
+      font-size: 0.85em;
+      color: #a4b0be;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <span class="badge">🔥 Promoção Exclusiva</span>
+    
+    <h1>Leve <span class="destaque">6 Produtos</span> Pela Metade do Preço!</h1>
+    
+    <p>
+      Sua chance de renovar tudo economizando muito! Fale diretamente conosco agora mesmo no WhatsApp para garantir o seu kit com <strong>50% de desconto</strong>.
+    </p>
+
+    <a href="#" class="btn-whatsapp" onclick="enviarMensagem()">
+      💬 Chamar no WhatsApp Agora
+    </a>
+
+    <p class="garantia">⚡ Resposta rápida & atendimento personalizado</p>
+  </div>
+
+  <script>
+    function enviarMensagem() {
+      const numeroWhatsapp = "5569981217751";
+      const mensagem = "Olá! Vi a promoção no site e quero aproveitar a oferta de 6 produtos pela metade do preço!";
+      const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
