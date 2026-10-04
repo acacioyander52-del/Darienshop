@@ -3,125 +3,350 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darienshop | Atendimento Direct</title>
+  <title>Darienshop | Loja Virtual</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background-color: #0f172a;
       color: #f8fafc;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background-color: #1e293b;
       padding: 20px;
-    }
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 20px;
-      padding: 35px 25px;
-      max-width: 420px;
-      width: 100%;
       text-align: center;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid #334155;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .logo {
-      font-size: 1.8em;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 20px;
+
+    header h1 {
       color: #ffffff;
+      font-size: 1.8rem;
     }
-    .badge {
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      font-size: 0.85em;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 50px;
-      display: inline-block;
-      margin-bottom: 20px;
-      border: 1px solid rgba(96, 165, 250, 0.3);
-    }
-    h1 {
-      font-size: 1.4em;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 15px;
-      color: #f1f5f9;
-    }
-    p {
-      font-size: 0.95em;
+
+    header p {
       color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 30px;
+      font-size: 0.9rem;
     }
-    .btn-whatsapp {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background-color: #25d366;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 1.05em;
-      font-weight: 700;
-      padding: 16px;
+
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card-produto {
+      background-color: #1e293b;
+      border: 1px solid #334155;
       border-radius: 12px;
-      width: 100%;
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-      transition: transform 0.2s, background-color 0.2s;
-    }
-    .btn-whatsapp:active {
-      transform: scale(0.98);
-    }
-    .info {
-      margin-top: 25px;
-      font-size: 0.8em;
-      color: #64748b;
+      padding: 15px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-produto img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-produto h3 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .card-produto .preco {
+      color: #38bdf8;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      margin-bottom: 5px;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-carrinho {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-zap-direto {
+      background-color: #25d366;
+      color: white;
+    }
+
+    /* Barra Fixa do Carrinho no Rodapé */
+    .carrinho-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1e293b;
+      border-top: 1px solid #334155;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+    }
+
+    .carrinho-info {
+      font-size: 1.1rem;
+    }
+
+    .carrinho-info span {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    .btn-comprar {
+      background-color: #22c55e;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: auto;
+    }
+
+    /* Modal de Checkout */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
       justify-content: center;
-      gap: 15px;
+      align-items: center;
+      z-index: 200;
+    }
+
+    .modal-content {
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 90%;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content input, .modal-content select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+    }
+
+    .pix-box {
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px dashed #38bdf8;
+      text-align: center;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .pix-box code {
+      word-break: break-all;
+      color: #38bdf8;
+      font-size: 0.9rem;
+    }
+
+    .btn-fechar {
+      background-color: #ef4444;
+      color: white;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="logo">Darienshop porto velho</div>
-    
-    <span class="badge">Atendimento Rápido</span>
-    
-    <h1>Procurando nossas ofertas e catálogo de produtos?</h1>
-    
-    <p>
-      Atendemos diretamente pelo WhatsApp para tirar suas dúvidas, enviar fotos dos itens disponíveis e negociar os melhores valores.
-    </p>
+  <header>
+    <h1>Darienshop Porto Velho</h1>
+    <p>Produtos com os melhores preços da região</p>
+  </header>
 
-    <a href="#" class="btn-whatsapp" onclick="enviarMensagem()">
-      Falar no WhatsApp
-    </a>
+  <div class="container">
+    <div class="produtos-grid" id="lista-produtos">
+      <!-- Produtos serão inseridos via JavaScript -->
+    </div>
+  </div>
 
-    <div class="info">
-      <span>✓ Atendimento humano</span>
-      <span>•</span>
-      <span>✓ Entrega em toda porto velho</span>
+  <!-- Barra de Carrinho Fixa -->
+  <div class="carrinho-bar">
+    <div class="carrinho-info">
+      Itens: <span id="qtd-itens">0</span> | Total: <span id="total-valor">R$ 0,00</span>
+    </div>
+    <button class="btn btn-comprar" onclick="abrirCheckout()">Finalizar Compra</button>
+  </div>
+
+  <!-- Modal de Checkout -->
+  <div class="modal" id="modal-checkout">
+    <div class="modal-content">
+      <h2>Finalizar Pedido</h2>
+      
+      <input type="text" id="nome-cliente" placeholder="Seu Nome Completo">
+      <input type="text" id="endereco-cliente" placeholder="Endereço de Entrega em Porto Velho">
+      
+      <label for="metodo-pagamento">Forma de Pagamento:</label>
+      <select id="metodo-pagamento" onchange="alternarPagamento()">
+        <option value="whatsapp">Negociar / Enviar Pedido no WhatsApp</option>
+        <option value="pix">Pagar no Site via PIX</option>
+      </select>
+
+      <!-- Caixa de Pagamento PIX -->
+      <div class="pix-box" id="caixa-pix">
+        <p><strong>Chave PIX (Celular):</strong></p>
+        <code>69984560482</code>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 8px;">Após realizar a transferência, clique em "Confirmar Pedido".</p>
+      </div>
+
+      <button class="btn btn-comprar" onclick="processarPedido()">Confirmar Pedido</button>
+      <button class="btn btn-fechar" onclick="fecharCheckout()">Cancelar</button>
     </div>
   </div>
 
   <script>
-    function enviarMensagem() {
-      const numeroWhatsapp = "5569984560482";
-      const mensagem = "Olá! Vim pelo site e gostaria de conhecer os produtos e valores disponíveis.";
-      const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
-    }
-  </script>
+    // 1. Seu Catálogo de Produtos
+    const produtos = [
+      { id: 1, nome: "Fone Bluetooth Lenovo", preco: 89.90, img: "https://via.placeholder.com/200?text=Fone+Bluetooth" },
+      { id: 2, nome: "Smartwatch Esportivo", preco: 149.90, img: "https://via.placeholder.com/200?text=Smartwatch" },
+      { id: 3, nome: "Carregador Rápido Type-C", preco: 45.00, img: "https://via.placeholder.com/200?text=Carregador" },
+      { id: 4, nome: "Caixa de Som Bluetooth", preco: 110.00, img: "https://via.placeholder.com/200?text=Caixa+de+Som" }
+    ];
 
+    let carrinho = [];
+
+    // 2. Renderizar os produtos na tela
+    function carregarProdutos() {
+      const container = document.getElementById("lista-produtos");
+      container.innerHTML = "";
+
+      produtos.forEach(prod => {
+        container.innerHTML += `
+          <div class="card-produto">
+            <div>
+              <img src="${prod.img}" alt="${prod.nome}">
+              <h3>${prod.nome}</h3>
+              <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
+            </div>
+            <div>
+              <button class="btn btn-carrinho" onclick="adicionarAoCarrinho(${prod.id})">+ Adicionar ao Carrinho</button>
+              <button class="btn btn-zap-direto" onclick="comprarDiretoZap('${prod.nome}', ${prod.preco})">Chamar no WhatsApp</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // 3. Adicionar produto ao carrinho
+    function adicionarAoCarrinho(id) {
+      const prod = produtos.find(p => p.id === id);
+      carrinho.push(prod);
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      document.getElementById("qtd-itens").innerText = carrinho.length;
+      const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
+      document.getElementById("total-valor").innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    // 4. Comprar item individual pelo WhatsApp
+    function comprarDiretoZap(nome, preco) {
+      const zap = "5569984560482";
+      const texto = `Olá! Gostaria de saber mais sobre o produto: *${nome}* (R$ ${preco.toFixed(2)})`;
+      window.open(`https://wa.me/${zap}?text=${encodeURIComponent(texto)}`, '_blank');
+    }
+
+    // 5. Funções do Modal de Checkout
+    function abrirCheckout() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio! Adicione algum produto antes.");
+        return;
+      }
+      document.getElementById("modal-checkout").style.display = "flex";
+    }
+
+    function fecharCheckout() {
+      document.getElementById("modal-checkout").style.display = "none";
+    }
+
+    function alternarPagamento() {
+      const metodo = document.getElementById("metodo-pagamento").value;
+      const caixaPix = document.getElementById("caixa-pix");
+      caixaPix.style.display = (metodo === "pix") ? "block" : "none";
+    }
+
+    // 6. Enviar Pedido Final
+    function processarPedido() {
+      const nome = document.getElementById("nome-cliente").value;
+      const endereco = document.getElementById("endereco-cliente").value;
+      const metodo = document.getElementById("metodo-pagamento").value;
+
+      if (!nome || !endereco) {
+        alert("Por favor, preencha seu nome e endereço de entrega!");
+        return;
+      }
+
+      const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
+      const listaItens = carrinho.map(i => `- ${i.nome} (R$ ${i.preco.toFixed(2)})`).join('\n');
+      
+      const zap = "5569984560482";
+      let mensagem = `*NOVO PEDIDO DO SITE*\n\n`;
+      mensagem += `*Cliente:* ${nome}\n`;
+      mensagem += `*Endereço:* ${endereco}\n\n`;
+      mensagem += `*Itens do Pedido:*\n${listaItens}\n\n`;
+      mensagem += `*Total:* R$ ${total.toFixed(2)}\n`;
+      mensagem += `*Forma de Pagamento:* ${metodo === 'pix' ? 'PIX Realizado no Site' : 'A combinar / WhatsApp'}`;
+
+      window.open(`https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`, '_blank');
+      
+      // Limpa carrinho e fecha modal
+      carrinho = [];
+      atualizarCarrinho();
+      fecharCheckout();
+    }
+
+    // Inicializar loja
+    carregarProdutos();
+  </script>
 </body>
 </html>
