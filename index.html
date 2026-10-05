@@ -246,10 +246,10 @@
   <script>
     // 1. Seu Catálogo de Produtos
     const produtos = [
-      { id: 1, nome: "Fone Bluetooth Lenovo", preco: 89.90, img: "https://via.placeholder.com/200?text=Fone+Bluetooth" },
-      { id: 2, nome: "Smartwatch Esportivo", preco: 149.90, img: "https://via.placeholder.com/200?text=Smartwatch" },
-      { id: 3, nome: "Carregador Rápido Type-C", preco: 45.00, img: "https://via.placeholder.com/200?text=Carregador" },
-      { id: 4, nome: "Caixa de Som Bluetooth", preco: 110.00, img: "https://via.placeholder.com/200?text=Caixa+de+Som" }
+      { id: 1, nome: "fone lenovo LE253", preco: 69.98, img: "https://via.placeholder.com/200?text=Fone+Bluetooth" },
+      { id: 2, nome: "fone bluetooth M1O", preco: 19.99, img: "https://via.placeholder.com/200?text=Smartwatch" },
+      { id: 3, nome: "lanterna 3 em 1", preco: 19.98, img: "https://via.placeholder.com/200?text=Carregador" },
+      { id: 4, nome: "meia de compressão", preco: 24.99, img: "https://via.placeholder.com/200?text=Caixa+de+Som" }
     ];
 
     let carrinho = [];
@@ -317,7 +317,7 @@
 
     // 6. Enviar Pedido Final
     function processarPedido() {
-      const nome = document.getElementById("nome-cliente").value;
+      const nome = document.getElementById("nome-client").value;
       const endereco = document.getElementById("endereco-cliente").value;
       const metodo = document.getElementById("metodo-pagamento").value;
 
