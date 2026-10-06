@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darienshop | Loja Virtual</title>
+  <title>NorteTech Express | Loja Virtual</title>
   <style>
     * {
       box-sizing: border-box;
@@ -194,12 +194,32 @@
       color: white;
       margin-top: 10px;
     }
+
+    /* Botão Flutuante do WhatsApp */
+    .btn-whatsapp-flutuante {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: transform 0.2s ease;
+    }
+    .btn-whatsapp-flutuante:hover {
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Darienshop Porto Velho</h1>
+    <h1>NorteTech Express Porto Velho</h1>
     <p>Produtos com os melhores preços da região</p>
   </header>
 
@@ -221,30 +241,53 @@
   <div class="modal" id="modal-checkout">
     <div class="modal-content">
       <h2>Finalizar Pedido</h2>
-      
+
       <input type="text" id="nome-cliente" placeholder="Seu Nome Completo">
       <input type="text" id="endereco-cliente" placeholder="Endereço de Entrega em Porto Velho">
-      
+      <input type="text" id="bairro-cliente" placeholder="Bairro em Porto Velho">
+      <input type="text" id="referencia-cliente" placeholder="Ponto de Referência (opcional)">
+
       <label for="metodo-pagamento">Forma de Pagamento:</label>
       <select id="metodo-pagamento" onchange="alternarPagamento()">
         <option value="whatsapp">Negociar / Enviar Pedido no WhatsApp</option>
         <option value="pix">Pagar no Site via PIX</option>
+        <option value="dinheiro">Dinheiro na Entrega</option>
       </select>
 
       <!-- Caixa de Pagamento PIX -->
       <div class="pix-box" id="caixa-pix">
-        <p><strong>Chave PIX (Celular):</strong></p>
-        <code>69984560482</code>
+        <p><strong>Chave PIX (chave aleatória):</strong></p>
+        <code>b40f4ad6-c08a-4c7c-a13c-6f4c738ca571</code>
         <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 8px;">Após realizar a transferência, clique em "Confirmar Pedido".</p>
+      </div>
+
+      <!-- Caixa de Troco Dinheiro -->
+      <div id="caixa-troco" style="display: none; margin-bottom: 12px;">
+        <label for="troco-cliente">Precisa de troco para quanto? (R$)</label>
+        <input type="text" id="troco-cliente" placeholder="Ex: 50 ou 100 (ou deixe em branco se não precisar)">
       </div>
 
       <button class="btn btn-comprar" onclick="processarPedido()">Confirmar Pedido</button>
       <button class="btn btn-fechar" onclick="fecharCheckout()">Cancelar</button>
+
+      <!-- Mensagem de Segurança e Entrega -->
+      <div style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 15px; border-top: 1px solid #334155; padding-top: 10px;">
+        <p style="margin: 3px 0;">🔒 <strong>Pagamento 100% Seguro</strong> via PIX, Dinheiro ou WhatsApp</p>
+        <p style="margin: 3px 0;">🚀 <strong>Entrega Rápida</strong> em Porto Velho e Região</p>
+      </div>
+
     </div>
   </div>
 
+  <!-- Botão Flutuante do WhatsApp -->
+  <a href="https://wa.me/5569984560482?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida." 
+     class="btn-whatsapp-flutuante" 
+     target="_blank">
+    📱 Dúvidas? Fale Conosco
+  </a>
+
   <script>
-    // 1. Seu Catálogo de Produtos
+    // 1. Catálogo de Produtos
     const produtos = [
       { id: 1, nome: "fone lenovo LE253", preco: 69.98, img: "https://http2.mlstatic.com/D_NQ_NP_2X_806647-MLB116310732088_092026-F-fone-de-ouvido-lenovo-tws-le253.webp" },
       { id: 2, nome: "fone bluetooth M1O", preco: 19.99, img: "https://http2.mlstatic.com/D_NQ_NP_2X_772036-MLB95085370087_102025-F-fone-de-ouvido-m10-bluetooth-v51-c-carregador-power-bank.webp" },
@@ -254,7 +297,7 @@
 
     let carrinho = [];
 
-    // 2. Renderizar os produtos na tela
+    // 2. Renderizar produtos na tela
     function carregarProdutos() {
       const container = document.getElementById("lista-produtos");
       container.innerHTML = "";
@@ -312,33 +355,50 @@
     function alternarPagamento() {
       const metodo = document.getElementById("metodo-pagamento").value;
       const caixaPix = document.getElementById("caixa-pix");
-      caixaPix.style.display = (metodo === "pix") ? "block" : "none";
+      const caixaTroco = document.getElementById("caixa-troco");
+
+      if (caixaPix) caixaPix.style.display = (metodo === "pix") ? "block" : "none";
+      if (caixaTroco) caixaTroco.style.display = (metodo === "dinheiro") ? "block" : "none";
     }
 
     // 6. Enviar Pedido Final
     function processarPedido() {
-      const nome = document.getElementById("nome-client").value;
+      const nome = document.getElementById("nome-cliente").value;
       const endereco = document.getElementById("endereco-cliente").value;
+      const bairro = document.getElementById("bairro-cliente").value;
+      const referencia = document.getElementById("referencia-cliente").value;
       const metodo = document.getElementById("metodo-pagamento").value;
+      const troco = document.getElementById("troco-cliente") ? document.getElementById("troco-cliente").value : "";
 
-      if (!nome || !endereco) {
-        alert("Por favor, preencha seu nome e endereço de entrega!");
+      if (!nome || !endereco || !bairro) {
+        alert("Por favor, preencha seu nome, endereço e bairro!");
         return;
       }
 
       const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
       const listaItens = carrinho.map(i => `- ${i.nome} (R$ ${i.preco.toFixed(2)})`).join('\n');
-      
+
+      let textoPagamento = "";
+      if (metodo === 'pix') {
+        textoPagamento = "PIX Realizado no Site";
+      } else if (metodo === 'dinheiro') {
+        textoPagamento = troco ? `Dinheiro (Troco para R$ ${troco})` : "Dinheiro (Sem troco)";
+      } else {
+        textoPagamento = "A combinar / WhatsApp";
+      }
+
       const zap = "5569984560482";
-      let mensagem = `*NOVO PEDIDO DO SITE*\n\n`;
+      let mensagem = `*NOVO PEDIDO - NorteTech Express*\n\n`;
       mensagem += `*Cliente:* ${nome}\n`;
-      mensagem += `*Endereço:* ${endereco}\n\n`;
-      mensagem += `*Itens do Pedido:*\n${listaItens}\n\n`;
+      mensagem += `*Endereço:* ${endereco}\n`;
+      mensagem += `*Bairro:* ${bairro}\n`;
+      if (referencia) mensagem += `*Ponto de Ref.:* ${referencia}\n`;
+      mensagem += `\n*Itens do Pedido:*\n${listaItens}\n\n`;
       mensagem += `*Total:* R$ ${total.toFixed(2)}\n`;
-      mensagem += `*Forma de Pagamento:* ${metodo === 'pix' ? 'PIX Realizado no Site' : 'A combinar / WhatsApp'}`;
+      mensagem += `*Forma de Pagamento:* ${textoPagamento}`;
 
       window.open(`https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`, '_blank');
-      
+
       // Limpa carrinho e fecha modal
       carrinho = [];
       atualizarCarrinho();
