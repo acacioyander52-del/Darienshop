@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NorteTech Express | Loja Virtual</title>
+  <title>NorteTech Express | Loja Virtual Porto Velho</title>
   <style>
     * {
       box-sizing: border-box;
@@ -40,10 +40,61 @@
       font-size: 0.8rem;
     }
 
+    /* Banner de Frete */
+    .banner-frete {
+      background: linear-gradient(90deg, #1e293b, #0f172a);
+      border-bottom: 1px solid #334155;
+      padding: 10px 15px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+    }
+
+    .btn-frete-info {
+      background-color: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-frete-info:hover {
+      background-color: #0284c7;
+      color: white;
+    }
+
     .container {
       max-width: 1000px;
       margin: 20px auto;
       padding: 0 15px;
+    }
+
+    /* Campo de Busca */
+    .busca-container {
+      margin-bottom: 20px;
+    }
+
+    .busca-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background-color: #1e293b;
+      color: white;
+      font-size: 0.95rem;
+    }
+
+    .busca-input:focus {
+      outline: none;
+      border-color: #38bdf8;
     }
 
     .produtos-grid {
@@ -107,6 +158,12 @@
 
     .btn:hover {
       opacity: 0.9;
+    }
+
+    .btn-detalhes {
+      background-color: #334155;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
     }
 
     .btn-carrinho {
@@ -311,6 +368,27 @@
       font-size: 0.9rem;
     }
 
+    /* Notificação Toast */
+    .toast-notificacao {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #22c55e;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 300;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Botão Flutuante do WhatsApp */
     .btn-whatsapp-flutuante {
       position: fixed;
@@ -341,13 +419,27 @@
     </div>
   </header>
 
+  <!-- Banner de Informação do Frete -->
+  <div class="banner-frete">
+    <span>🚚 Entregas em Porto Velho: O valor do frete é negociado via WhatsApp.</span>
+    <button class="btn-frete-info" onclick="abrirModalFrete()">Mais Informações</button>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="toast-notificacao">✅ Produto adicionado ao carrinho!</div>
+
   <div class="container">
+    <!-- Barra de Pesquisa Rápida -->
+    <div class="busca-container">
+      <input type="text" id="campo-busca" class="busca-input" placeholder="🔍 Pesquisar produto..." oninput="filtrarProdutos()">
+    </div>
+
     <div class="produtos-grid" id="lista-produtos">
       <!-- Produtos inseridos via JavaScript -->
     </div>
   </div>
 
-  <!-- Barra Fixa do Carrinho (Invocação do Modal do Carrinho) -->
+  <!-- Barra Fixa do Carrinho no Rodapé -->
   <div class="carrinho-bar">
     <div class="carrinho-info" onclick="abrirModalCarrinho()" style="cursor: pointer;">
       🛒 <strong>Carrinho:</strong> 
@@ -357,7 +449,24 @@
     <button class="btn btn-comprar" onclick="abrirModalCarrinho()">Ver Carrinho</button>
   </div>
 
-  <!-- Modal 1: Visualização e Gestão do Carrinho -->
+  <!-- Modal do Frete (Explicação) -->
+  <div class="modal" id="modal-frete">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Como Funciona a Entrega?</h2>
+        <button class="btn-close-x" onclick="fecharModalFrete()">&times;</button>
+      </div>
+      <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px;">
+        As entregas são realizadas por entregadores locais em Porto Velho.<br><br>
+        • A taxa média fica <strong>por volta de R$ 10,00</strong> para a maioria dos bairros.<br>
+        • O valor exato é combinado diretamente no WhatsApp ao enviar seu pedido.<br>
+        • Dúvidas sobre seu bairro? Fale connosco pelo botão flutuante!
+      </p>
+      <button class="btn btn-carrinho" onclick="fecharModalFrete()">Entendi</button>
+    </div>
+  </div>
+
+  <!-- Modal 1: Visualização do Carrinho -->
   <div class="modal" id="modal-carrinho">
     <div class="modal-content">
       <div class="modal-header">
@@ -371,9 +480,10 @@
 
       <div style="border-top: 1px solid #334155; padding-top: 12px; margin-bottom: 15px;">
         <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: bold;">
-          <span>Total:</span>
+          <span>Subtotal dos Itens:</span>
           <span style="color: #38bdf8;" id="modal-carrinho-total">R$ 0,00</span>
         </div>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px; text-align: right;">*Frete a calcular via WhatsApp</p>
       </div>
 
       <button class="btn btn-comprar" onclick="avancarParaCheckout()">Finalizar Compra</button>
@@ -398,7 +508,7 @@
     </div>
   </div>
 
-  <!-- Modal 3: Checkout e Endereço -->
+  <!-- Modal 3: Checkout -->
   <div class="modal" id="modal-checkout">
     <div class="modal-content">
       <div class="modal-header">
@@ -435,13 +545,13 @@
   </div>
 
   <!-- Botão Flutuante do WhatsApp -->
-  <a href="https://wa.me/5569984560482?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida." 
+  <a href="https://wa.me/5569984560482?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20o%20frete%20ou%20produtos." 
      class="btn-whatsapp-flutuante" target="_blank">
     📱 Dúvidas? Fale Conosco
   </a>
 
   <script>
-    // 1. Catálogo de Produtos com Descrições Detalhadas
+    // Catálogo de Produtos
     const produtos = [
       { 
         id: 1, 
@@ -473,33 +583,49 @@
       }
     ];
 
-    // Estrutura do Carrinho com Controle de Quantidades
-    let carrinho = []; // Exemplo de item: { id, nome, preco, img, quantidade }
+    let carrinho = [];
     let produtoSelecionado = null;
 
-    // Renderizar a vitrine de produtos
-    function carregarProdutos() {
+    // Vitrine de Produtos e Filtro de Busca
+    function carregarProdutos(lista = produtos) {
       const container = document.getElementById("lista-produtos");
       container.innerHTML = "";
 
-      produtos.forEach(prod => {
+      if (lista.length === 0) {
+        container.innerHTML = "<p style='color: #94a3b8; grid-column: 1/-1; text-align: center;'>Nenhum produto encontrado.</p>";
+        return;
+      }
+
+      lista.forEach(prod => {
         container.innerHTML += `
-          <div class="card-produto">
-            <div onclick="abrirModalProduto(${prod.id})">
+          <div class="card-produto" onclick="abrirModalProduto(${prod.id})">
+            <div>
               <img src="${prod.img}" alt="${prod.nome}">
               <h3>${prod.nome}</h3>
               <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
             </div>
-            <div>
-              <button class="btn btn-carrinho" onclick="adicionarAoCarrinho(${prod.id})">+ Adicionar</button>
-              <button class="btn btn-zap-direto" onclick="abrirModalProduto(${prod.id})">Ver Detalhes</button>
-            </div>
+            <button class="btn btn-detalhes">Ver Detalhes</button>
           </div>
         `;
       });
     }
 
-    // Modal de Detalhes do Produto
+    function filtrarProdutos() {
+      const termo = document.getElementById("campo-busca").value.toLowerCase();
+      const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+      carregarProdutos(filtrados);
+    }
+
+    // Modal de Frete
+    function abrirModalFrete() {
+      document.getElementById("modal-frete").style.display = "flex";
+    }
+
+    function fecharModalFrete() {
+      document.getElementById("modal-frete").style.display = "none";
+    }
+
+    // Modal de Detalhes
     function abrirModalProduto(id) {
       produtoSelecionado = produtos.find(p => p.id === id);
       document.getElementById("modal-prod-titulo").innerText = produtoSelecionado.nome;
@@ -528,7 +654,17 @@
       }
     }
 
-    // Gestão do Carrinho
+    // Notificação Toast
+    function exibirToast(mensagem) {
+      const toast = document.getElementById("toast");
+      toast.innerText = mensagem;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2500);
+    }
+
+    // Gerenciamento do Carrinho
     function adicionarAoCarrinho(id) {
       const itemExistente = carrinho.find(item => item.id === id);
       if (itemExistente) {
@@ -538,6 +674,7 @@
         carrinho.push({ ...prod, quantidade: 1 });
       }
       atualizarCarrinho();
+      exibirToast("✅ Produto adicionado ao carrinho!");
     }
 
     function alterarQuantidade(id, delta) {
@@ -559,113 +696,4 @@
       document.getElementById("total-valor").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
       document.getElementById("modal-carrinho-total").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
 
-      // Atualizar modal do carrinho
-      const containerItens = document.getElementById("conteudo-carrinho-itens");
-      if (carrinho.length === 0) {
-        containerItens.innerHTML = "<p style='text-align: center; color: #94a3b8;'>Seu carrinho está vazio.</p>";
-      } else {
-        containerItens.innerHTML = "";
-        carrinho.forEach(item => {
-          containerItens.innerHTML += `
-            <div class="item-carrinho">
-              <img src="${item.img}" alt="${item.nome}">
-              <div class="item-carrinho-detalhes">
-                <h4>${item.nome}</h4>
-                <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
-              </div>
-              <div class="qtd-controle">
-                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, -1)">-</button>
-                <span>${item.quantidade}</span>
-                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, 1)">+</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-    }
-
-    // Funções dos Modais do Carrinho e Checkout
-    function abrirModalCarrinho() {
-      atualizarCarrinho();
-      document.getElementById("modal-carrinho").style.display = "flex";
-    }
-
-    function fecharModalCarrinho() {
-      document.getElementById("modal-carrinho").style.display = "none";
-    }
-
-    function avancarParaCheckout() {
-      if (carrinho.length === 0) {
-        alert("Adicione pelo menos um produto ao carrinho antes de continuar!");
-        return;
-      }
-      fecharModalCarrinho();
-      abrirCheckout();
-    }
-
-    function abrirCheckout() {
-      document.getElementById("modal-checkout").style.display = "flex";
-    }
-
-    function fecharCheckout() {
-      document.getElementById("modal-checkout").style.display = "none";
-    }
-
-    function alternarPagamento() {
-      const metodo = document.getElementById("metodo-pagamento").value;
-      const caixaPix = document.getElementById("caixa-pix");
-      const caixaTroco = document.getElementById("caixa-troco");
-
-      if (caixaPix) caixaPix.style.display = (metodo === "pix") ? "block" : "none";
-      if (caixaTroco) caixaTroco.style.display = (metodo === "dinheiro") ? "block" : "none";
-    }
-
-    // Enviar Pedido Formatado para o WhatsApp
-    function processarPedido() {
-      const nome = document.getElementById("nome-cliente").value;
-      const endereco = document.getElementById("endereco-cliente").value;
-      const bairro = document.getElementById("bairro-cliente").value;
-      const referencia = document.getElementById("referencia-cliente").value;
-      const metodo = document.getElementById("metodo-pagamento").value;
-      const troco = document.getElementById("troco-cliente") ? document.getElementById("troco-cliente").value : "";
-
-      if (!nome || !endereco || !bairro) {
-        alert("Por favor, preencha seu nome, endereço e bairro!");
-        return;
-      }
-
-      const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-      const listaItens = carrinho.map(i => `- ${i.quantidade}x ${i.nome} (R$ ${(i.preco * i.quantidade).toFixed(2)})`).join('\n');
-
-      let textoPagamento = "";
-      if (metodo === 'pix') {
-        textoPagamento = "PIX Realizado no Site";
-      } else if (metodo === 'dinheiro') {
-        textoPagamento = troco ? `Dinheiro (Troco para R$ ${troco})` : "Dinheiro (Sem troco)";
-      } else {
-        textoPagamento = "A combinar / WhatsApp";
-      }
-
-      const zap = "5569984560482";
-      let mensagem = `*NOVO PEDIDO - NorteTech Express*\n\n`;
-      mensagem += `*Cliente:* ${nome}\n`;
-      mensagem += `*Endereço:* ${endereco}\n`;
-      mensagem += `*Bairro:* ${bairro}\n`;
-      if (referencia) mensagem += `*Ponto de Ref.:* ${referencia}\n`;
-      mensagem += `\n*Itens do Pedido:*\n${listaItens}\n\n`;
-      mensagem += `*Total:* R$ ${total.toFixed(2)}\n`;
-      mensagem += `*Forma de Pagamento:* ${textoPagamento}`;
-
-      window.open(`https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`, '_blank');
-
-      // Resetar carrinho e fechar modais
-      carrinho = [];
-      atualizarCarrinho();
-      fecharCheckout();
-    }
-
-    // Inicialização da loja
-    carregarProdutos();
-  </script>
-</body>
-</html>
+      const containerItens = document.getElementById
