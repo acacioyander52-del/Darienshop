@@ -15,27 +15,29 @@
     body {
       background-color: #0f172a;
       color: #f8fafc;
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
 
     header {
       background-color: #1e293b;
-      padding: 20px;
-      text-align: center;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #334155;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
-    header h1 {
+    header .logo h1 {
       color: #ffffff;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
 
-    header p {
+    header .logo p {
       color: #94a3b8;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .container {
@@ -59,6 +61,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card-produto:hover {
+      transform: translateY(-3px);
+      border-color: #38bdf8;
     }
 
     .card-produto img {
@@ -78,7 +87,7 @@
       color: #38bdf8;
       font-size: 1.2rem;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .btn {
@@ -90,6 +99,10 @@
       width: 100%;
       margin-bottom: 5px;
       transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn:hover {
@@ -106,6 +119,18 @@
       color: white;
     }
 
+    .btn-comprar {
+      background-color: #22c55e;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+
+    .btn-fechar {
+      background-color: #ef4444;
+      color: white;
+    }
+
     /* Barra Fixa do Carrinho no Rodapé */
     .carrinho-bar {
       position: fixed;
@@ -114,53 +139,150 @@
       width: 100%;
       background-color: #1e293b;
       border-top: 1px solid #334155;
-      padding: 15px 20px;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.4);
+      z-index: 90;
     }
 
     .carrinho-info {
-      font-size: 1.1rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .carrinho-info span {
-      color: #38bdf8;
+    .carrinho-badge {
+      background: #ef4444;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.85rem;
       font-weight: bold;
     }
 
-    .btn-comprar {
-      background-color: #22c55e;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-size: 1rem;
-      width: auto;
+    .carrinho-info span.total {
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
 
-    /* Modal de Checkout */
+    /* Modais */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       justify-content: center;
       align-items: center;
       z-index: 200;
+      padding: 15px;
     }
 
     .modal-content {
       background: #1e293b;
-      padding: 25px;
+      padding: 20px;
       border-radius: 12px;
-      max-width: 450px;
-      width: 90%;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
-    .modal-content h2 {
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 15px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
+    }
+
+    .btn-close-x {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Lista Detalhada do Carrinho */
+    .carrinho-lista-itens {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .item-carrinho {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #0f172a;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+
+    .item-carrinho img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .item-carrinho-detalhes {
+      flex: 1;
+    }
+
+    .item-carrinho-detalhes h4 {
+      font-size: 0.95rem;
+    }
+
+    .item-carrinho-detalhes p {
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .qtd-controle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-qtd {
+      background: #334155;
+      color: white;
+      border: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-qtd:hover {
+      background: #475569;
+    }
+
+    /* Modal de Detalhes do Produto */
+    .detalhes-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .detalhes-descricao {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin: 10px 0 15px;
+      line-height: 1.4;
     }
 
     .modal-content input, .modal-content select {
@@ -189,12 +311,6 @@
       font-size: 0.9rem;
     }
 
-    .btn-fechar {
-      background-color: #ef4444;
-      color: white;
-      margin-top: 10px;
-    }
-
     /* Botão Flutuante do WhatsApp */
     .btn-whatsapp-flutuante {
       position: fixed;
@@ -219,31 +335,79 @@
 <body>
 
   <header>
-    <h1>NorteTech Express Porto Velho</h1>
-    <p>Produtos com os melhores preços da região</p>
+    <div class="logo">
+      <h1>NorteTech Express</h1>
+      <p>Entregas Rápidas em Porto Velho</p>
+    </div>
   </header>
 
   <div class="container">
     <div class="produtos-grid" id="lista-produtos">
-      <!-- Produtos serão inseridos via JavaScript -->
+      <!-- Produtos inseridos via JavaScript -->
     </div>
   </div>
 
-  <!-- Barra de Carrinho Fixa -->
+  <!-- Barra Fixa do Carrinho (Invocação do Modal do Carrinho) -->
   <div class="carrinho-bar">
-    <div class="carrinho-info">
-      Itens: <span id="qtd-itens">0</span> | Total: <span id="total-valor">R$ 0,00</span>
+    <div class="carrinho-info" onclick="abrirModalCarrinho()" style="cursor: pointer;">
+      🛒 <strong>Carrinho:</strong> 
+      <span class="carrinho-badge" id="qtd-itens">0</span>
+      <span class="total" id="total-valor">R$ 0,00</span>
     </div>
-    <button class="btn btn-comprar" onclick="abrirCheckout()">Finalizar Compra</button>
+    <button class="btn btn-comprar" onclick="abrirModalCarrinho()">Ver Carrinho</button>
   </div>
 
-  <!-- Modal de Checkout -->
+  <!-- Modal 1: Visualização e Gestão do Carrinho -->
+  <div class="modal" id="modal-carrinho">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Seu Carrinho</h2>
+        <button class="btn-close-x" onclick="fecharModalCarrinho()">&times;</button>
+      </div>
+
+      <div class="carrinho-lista-itens" id="conteudo-carrinho-itens">
+        <!-- Itens do carrinho aparecem aqui -->
+      </div>
+
+      <div style="border-top: 1px solid #334155; padding-top: 12px; margin-bottom: 15px;">
+        <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: bold;">
+          <span>Total:</span>
+          <span style="color: #38bdf8;" id="modal-carrinho-total">R$ 0,00</span>
+        </div>
+      </div>
+
+      <button class="btn btn-comprar" onclick="avancarParaCheckout()">Finalizar Compra</button>
+      <button class="btn btn-fechar" onclick="fecharModalCarrinho()">Continuar Comprando</button>
+    </div>
+  </div>
+
+  <!-- Modal 2: Detalhes do Produto Selecionado -->
+  <div class="modal" id="modal-produto">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-prod-titulo">Detalhes do Produto</h2>
+        <button class="btn-close-x" onclick="fecharModalProduto()">&times;</button>
+      </div>
+
+      <img id="modal-prod-img" src="" class="detalhes-img" alt="">
+      <p class="detalhes-descricao" id="modal-prod-desc"></p>
+      <p style="color: #38bdf8; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px;" id="modal-prod-preco"></p>
+
+      <button class="btn btn-carrinho" onclick="adicionarEFecharDetalhes()">+ Adicionar ao Carrinho</button>
+      <button class="btn btn-zap-direto" onclick="comprarDiretoDetalhes()">🚀 Comprar Agora via WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Modal 3: Checkout e Endereço -->
   <div class="modal" id="modal-checkout">
     <div class="modal-content">
-      <h2>Finalizar Pedido</h2>
+      <div class="modal-header">
+        <h2>Endereço e Pagamento</h2>
+        <button class="btn-close-x" onclick="fecharCheckout()">&times;</button>
+      </div>
 
       <input type="text" id="nome-cliente" placeholder="Seu Nome Completo">
-      <input type="text" id="endereco-cliente" placeholder="Endereço de Entrega em Porto Velho">
+      <input type="text" id="endereco-cliente" placeholder="Endereço de Entrega (Rua e Nº)">
       <input type="text" id="bairro-cliente" placeholder="Bairro em Porto Velho">
       <input type="text" id="referencia-cliente" placeholder="Ponto de Referência (opcional)">
 
@@ -254,50 +418,66 @@
         <option value="dinheiro">Dinheiro na Entrega</option>
       </select>
 
-      <!-- Caixa de Pagamento PIX -->
       <div class="pix-box" id="caixa-pix">
         <p><strong>Chave PIX (chave aleatória):</strong></p>
         <code>b40f4ad6-c08a-4c7c-a13c-6f4c738ca571</code>
         <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 8px;">Após realizar a transferência, clique em "Confirmar Pedido".</p>
       </div>
 
-      <!-- Caixa de Troco Dinheiro -->
       <div id="caixa-troco" style="display: none; margin-bottom: 12px;">
         <label for="troco-cliente">Precisa de troco para quanto? (R$)</label>
-        <input type="text" id="troco-cliente" placeholder="Ex: 50 ou 100 (ou deixe em branco se não precisar)">
+        <input type="text" id="troco-cliente" placeholder="Ex: 50 ou 100">
       </div>
 
       <button class="btn btn-comprar" onclick="processarPedido()">Confirmar Pedido</button>
-      <button class="btn btn-fechar" onclick="fecharCheckout()">Cancelar</button>
-
-      <!-- Mensagem de Segurança e Entrega -->
-      <div style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 15px; border-top: 1px solid #334155; padding-top: 10px;">
-        <p style="margin: 3px 0;">🔒 <strong>Pagamento 100% Seguro</strong> via PIX, Dinheiro ou WhatsApp</p>
-        <p style="margin: 3px 0;">🚀 <strong>Entrega Rápida</strong> em Porto Velho e Região</p>
-      </div>
-
+      <button class="btn btn-fechar" onclick="fecharCheckout()">Voltar</button>
     </div>
   </div>
 
   <!-- Botão Flutuante do WhatsApp -->
   <a href="https://wa.me/5569984560482?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20uma%20d%C3%BAvida." 
-     class="btn-whatsapp-flutuante" 
-     target="_blank">
+     class="btn-whatsapp-flutuante" target="_blank">
     📱 Dúvidas? Fale Conosco
   </a>
 
   <script>
-    // 1. Catálogo de Produtos
+    // 1. Catálogo de Produtos com Descrições Detalhadas
     const produtos = [
-      { id: 1, nome: "fone lenovo LE253", preco: 69.98, img: "https://http2.mlstatic.com/D_NQ_NP_2X_806647-MLB116310732088_092026-F-fone-de-ouvido-lenovo-tws-le253.webp" },
-      { id: 2, nome: "fone bluetooth M1O", preco: 19.99, img: "https://http2.mlstatic.com/D_NQ_NP_2X_772036-MLB95085370087_102025-F-fone-de-ouvido-m10-bluetooth-v51-c-carregador-power-bank.webp" },
-      { id: 3, nome: "lanterna 3 em 1", preco: 19.98, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEyCVPFl9vPXJFJnj8VKtsS3id5rCBgBz1Y9VbhD-BwSHXDk5lXJb6tGIv&s=10" },
-      { id: 4, nome: "meia de compressão", preco: 24.99, img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSkNOjwdMKcSIJrD7jZ6jbqIrQW33oDKznkIwenoHZ8qm3qbUmtGZgiX8wwq6i0mGMUDFORGkDMkovEP-ZMIZeJn00X9FtZWs30Pa_rsWbpodFfh-sDun_u9tA8Z-IRJ0uLtGK_Zg&usqp=CAc" }
+      { 
+        id: 1, 
+        nome: "Fone Lenovo LE253", 
+        preco: 69.98, 
+        img: "https://http2.mlstatic.com/D_NQ_NP_2X_806647-MLB116310732088_092026-F-fone-de-ouvido-lenovo-tws-le253.webp",
+        descricao: "Fone de ouvido Bluetooth sem fio TWS Lenovo LE253 com som HD de alta fidelidade, cancelamento de ruído e bateria de longa duração."
+      },
+      { 
+        id: 2, 
+        nome: "Fone Bluetooth M10", 
+        preco: 19.99, 
+        img: "https://http2.mlstatic.com/D_NQ_NP_2X_772036-MLB95085370087_102025-F-fone-de-ouvido-m10-bluetooth-v51-c-carregador-power-bank.webp",
+        descricao: "Fone M10 TWS Bluetooth 5.1 com estojo de carregamento multifuncional que também funciona como Power Bank para recarregar seu celular."
+      },
+      { 
+        id: 3, 
+        nome: "Lanterna 3 em 1", 
+        preco: 19.98, 
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEyCVPFl9vPXJFJnj8VKtsS3id5rCBgBz1Y9VbhD-BwSHXDk5lXJb6tGIv&s=10",
+        descricao: "Lanterna tática multifuncional 3 em 1 com LED de alta potência, recarregável via USB e ideal para emergências ou uso diário."
+      },
+      { 
+        id: 4, 
+        nome: "Meia de Compressão", 
+        preco: 24.99, 
+        img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSkNOjwdMKcSIJrD7jZ6jbqIrQW33oDKznkIwenoHZ8qm3qbUmtGZgiX8wwq6i0mGMUDFORGkDMkovEP-ZMIZeJn00X9FtZWs30Pa_rsWbpodFfh-sDun_u9tA8Z-IRJ0uLtGK_Zg&usqp=CAc",
+        descricao: "Meia de compressão graduada para melhorar a circulação sanguínea, aliviar o cansaço nas pernas e prevenir varizes."
+      }
     ];
 
-    let carrinho = [];
+    // Estrutura do Carrinho com Controle de Quantidades
+    let carrinho = []; // Exemplo de item: { id, nome, preco, img, quantidade }
+    let produtoSelecionado = null;
 
-    // 2. Renderizar produtos na tela
+    // Renderizar a vitrine de produtos
     function carregarProdutos() {
       const container = document.getElementById("lista-produtos");
       container.innerHTML = "";
@@ -305,46 +485,125 @@
       produtos.forEach(prod => {
         container.innerHTML += `
           <div class="card-produto">
-            <div>
+            <div onclick="abrirModalProduto(${prod.id})">
               <img src="${prod.img}" alt="${prod.nome}">
               <h3>${prod.nome}</h3>
               <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
             </div>
             <div>
-              <button class="btn btn-carrinho" onclick="adicionarAoCarrinho(${prod.id})">+ Adicionar ao Carrinho</button>
-              <button class="btn btn-zap-direto" onclick="comprarDiretoZap('${prod.nome}', ${prod.preco})">Chamar no WhatsApp</button>
+              <button class="btn btn-carrinho" onclick="adicionarAoCarrinho(${prod.id})">+ Adicionar</button>
+              <button class="btn btn-zap-direto" onclick="abrirModalProduto(${prod.id})">Ver Detalhes</button>
             </div>
           </div>
         `;
       });
     }
 
-    // 3. Adicionar produto ao carrinho
+    // Modal de Detalhes do Produto
+    function abrirModalProduto(id) {
+      produtoSelecionado = produtos.find(p => p.id === id);
+      document.getElementById("modal-prod-titulo").innerText = produtoSelecionado.nome;
+      document.getElementById("modal-prod-img").src = produtoSelecionado.img;
+      document.getElementById("modal-prod-desc").innerText = produtoSelecionado.descricao;
+      document.getElementById("modal-prod-preco").innerText = `R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+      document.getElementById("modal-produto").style.display = "flex";
+    }
+
+    function fecharModalProduto() {
+      document.getElementById("modal-produto").style.display = "none";
+    }
+
+    function adicionarEFecharDetalhes() {
+      if (produtoSelecionado) {
+        adicionarAoCarrinho(produtoSelecionado.id);
+        fecharModalProduto();
+      }
+    }
+
+    function comprarDiretoDetalhes() {
+      if (produtoSelecionado) {
+        adicionarAoCarrinho(produtoSelecionado.id);
+        fecharModalProduto();
+        abrirCheckout();
+      }
+    }
+
+    // Gestão do Carrinho
     function adicionarAoCarrinho(id) {
-      const prod = produtos.find(p => p.id === id);
-      carrinho.push(prod);
+      const itemExistente = carrinho.find(item => item.id === id);
+      if (itemExistente) {
+        itemExistente.quantidade += 1;
+      } else {
+        const prod = produtos.find(p => p.id === id);
+        carrinho.push({ ...prod, quantidade: 1 });
+      }
+      atualizarCarrinho();
+    }
+
+    function alterarQuantidade(id, delta) {
+      const item = carrinho.find(item => item.id === id);
+      if (item) {
+        item.quantidade += delta;
+        if (item.quantidade <= 0) {
+          carrinho = carrinho.filter(i => i.id !== id);
+        }
+      }
       atualizarCarrinho();
     }
 
     function atualizarCarrinho() {
-      document.getElementById("qtd-itens").innerText = carrinho.length;
-      const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
-      document.getElementById("total-valor").innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-    }
+      const qtdTotal = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+      const totalValor = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
 
-    // 4. Comprar item individual pelo WhatsApp
-    function comprarDiretoZap(nome, preco) {
-      const zap = "5569984560482";
-      const texto = `Olá! Gostaria de saber mais sobre o produto: *${nome}* (R$ ${preco.toFixed(2)})`;
-      window.open(`https://wa.me/${zap}?text=${encodeURIComponent(texto)}`, '_blank');
-    }
+      document.getElementById("qtd-itens").innerText = qtdTotal;
+      document.getElementById("total-valor").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
+      document.getElementById("modal-carrinho-total").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
 
-    // 5. Funções do Modal de Checkout
-    function abrirCheckout() {
+      // Atualizar modal do carrinho
+      const containerItens = document.getElementById("conteudo-carrinho-itens");
       if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio! Adicione algum produto antes.");
+        containerItens.innerHTML = "<p style='text-align: center; color: #94a3b8;'>Seu carrinho está vazio.</p>";
+      } else {
+        containerItens.innerHTML = "";
+        carrinho.forEach(item => {
+          containerItens.innerHTML += `
+            <div class="item-carrinho">
+              <img src="${item.img}" alt="${item.nome}">
+              <div class="item-carrinho-detalhes">
+                <h4>${item.nome}</h4>
+                <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+              </div>
+              <div class="qtd-controle">
+                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, -1)">-</button>
+                <span>${item.quantidade}</span>
+                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, 1)">+</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+    }
+
+    // Funções dos Modais do Carrinho e Checkout
+    function abrirModalCarrinho() {
+      atualizarCarrinho();
+      document.getElementById("modal-carrinho").style.display = "flex";
+    }
+
+    function fecharModalCarrinho() {
+      document.getElementById("modal-carrinho").style.display = "none";
+    }
+
+    function avancarParaCheckout() {
+      if (carrinho.length === 0) {
+        alert("Adicione pelo menos um produto ao carrinho antes de continuar!");
         return;
       }
+      fecharModalCarrinho();
+      abrirCheckout();
+    }
+
+    function abrirCheckout() {
       document.getElementById("modal-checkout").style.display = "flex";
     }
 
@@ -361,7 +620,7 @@
       if (caixaTroco) caixaTroco.style.display = (metodo === "dinheiro") ? "block" : "none";
     }
 
-    // 6. Enviar Pedido Final
+    // Enviar Pedido Formatado para o WhatsApp
     function processarPedido() {
       const nome = document.getElementById("nome-cliente").value;
       const endereco = document.getElementById("endereco-cliente").value;
@@ -375,8 +634,8 @@
         return;
       }
 
-      const total = carrinho.reduce((acc, item) => acc + item.preco, 0);
-      const listaItens = carrinho.map(i => `- ${i.nome} (R$ ${i.preco.toFixed(2)})`).join('\n');
+      const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+      const listaItens = carrinho.map(i => `- ${i.quantidade}x ${i.nome} (R$ ${(i.preco * i.quantidade).toFixed(2)})`).join('\n');
 
       let textoPagamento = "";
       if (metodo === 'pix') {
@@ -399,13 +658,13 @@
 
       window.open(`https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`, '_blank');
 
-      // Limpa carrinho e fecha modal
+      // Resetar carrinho e fechar modais
       carrinho = [];
       atualizarCarrinho();
       fecharCheckout();
     }
 
-    // Inicializar loja
+    // Inicialização da loja
     carregarProdutos();
   </script>
 </body>
