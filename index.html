@@ -548,7 +548,7 @@
     </div>
   </div>
 
-  <!-- BOTÃO FLUTUANTE DO CARRINHO (SUBSTITUI A BARRA FIXA) -->
+  <!-- BOTÃO FLUTUANTE DO CARRINHO -->
   <div class="carrinho-flutuante" id="btn-carrinho-flutuante" onclick="abrirModalCarrinho()">
     <div class="carrinho-flutuante-icone">
       🛒
@@ -744,7 +744,7 @@
       });
     }
 
-    // Atualiza apenas os contadores de cada card sem recriar toda a lista
+    // Atualiza os contadores dos cards
     function atualizarBadgesCards() {
       produtos.forEach(prod => {
         const qtd = getQtdNoCarrinho(prod.id);
@@ -758,7 +758,7 @@
           }
         }
       });
-      // Recarrega a vitrine para atualizar os botões de + / -
+      
       const campoBusca = document.getElementById("campo-busca");
       const termo = campoBusca ? campoBusca.value.toLowerCase().trim() : "";
       if (termo === "") {
@@ -864,7 +864,6 @@
       document.getElementById("total-valor").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
       document.getElementById("modal-carrinho-total").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
 
-      // Atualiza visualização no card do produto
       atualizarBadgesCards();
 
       const containerItens = document.getElementById("conteudo-carrinho-itens");
@@ -977,8 +976,6 @@
     document.addEventListener("DOMContentLoaded", function() {
       carregarProdutos(produtos);
     });
-
-    carregarProdutos(produtos);
   </script>
 </body>
 </html>
