@@ -136,6 +136,11 @@
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
 
+    .card-produto.no-carrinho {
+      border-color: var(--teal-accent);
+      background-color: #12252e;
+    }
+
     .card-produto:hover {
       border-color: var(--orange-main);
       box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.15);
@@ -217,33 +222,42 @@
       background-color: var(--orange-hover);
     }
 
-    /* Ações Rápidas de Quantidade no Card */
-    .card-acoes-carrinho {
+    /* Controle Interativo de Quantidade no Próprio Card */
+    .card-controle-qtd {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
+      background-color: var(--bg-main);
+      border: 1px solid var(--teal-accent);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 6px;
     }
 
     .btn-card-qtd {
-      background-color: var(--bg-hover);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      font-size: 1.1rem;
+      background-color: var(--teal-accent);
+      color: #ffffff;
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s, border-color 0.2s;
+      transition: background-color 0.2s;
     }
 
     .btn-card-qtd:hover {
-      background-color: var(--teal-accent);
-      border-color: var(--teal-accent);
-      color: #fff;
+      background-color: var(--teal-light);
+    }
+
+    .card-qtd-texto {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #ffffff;
     }
 
     .btn-zap-direto {
@@ -263,7 +277,7 @@
       color: white;
     }
 
-    /* BOTÃO FLUTUANTE DO CARRINHO (DESIGN CLEAN E ELEGANTE) */
+    /* BOTÃO FLUTUANTE DO CARRINHO */
     .carrinho-flutuante {
       position: fixed;
       bottom: 25px;
@@ -571,7 +585,7 @@
         As entregas são realizadas por entregadores locais em Porto Velho.<br><br>
         • A taxa média fica <strong>por volta de R$ 10,00</strong> para a maioria dos bairros.<br>
         • O valor exato é combinado diretamente no WhatsApp ao enviar seu pedido.<br>
-        • Dúvidas sobre seu bairro? Fale connosco pelo botão flutuante!
+        • Dúvidas sobre seu bairro? Fale conosco pelo botão flutuante!
       </p>
       <button class="btn btn-carrinho" onclick="fecharModalFrete()">Entendi</button>
     </div>
@@ -717,26 +731,36 @@
       lista.forEach(prod => {
         const qtdNoCarrinho = getQtdNoCarrinho(prod.id);
         const badgeDisplay = qtdNoCarrinho > 0 ? "block" : "none";
+        const cardClasse = qtdNoCarrinho > 0 ? "card-produto no-carrinho" : "card-produto";
+
+        // Define a área de ação (Botão 'Adicionar' ou seletor de quantidade +/-)
+        let acaoHTML = "";
+        if (qtdNoCarrinho > 0) {
+          acaoHTML = `
+            <div class="card-controle-qtd">
+              <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>
+              <span class="card-qtd-texto">🛒 ${qtdNoCarrinho} selecionado(s)</span>
+              <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>
+            </div>
+          `;
+        } else {
+          acaoHTML = `
+            <button class="btn btn-carrinho" onclick="adicionarAoCarrinho(${prod.id})">+ Adicionar ao Carrinho</button>
+          `;
+        }
 
         container.innerHTML += `
-          <div class="card-produto">
+          <div class="${cardClasse}">
             <span class="badge-qtd-card" id="badge-prod-${prod.id}" style="display: ${badgeDisplay};">
-              ${qtdNoCarrinho} no carrinho
+              ✓ ${qtdNoCarrinho} no carrinho
             </span>
 
             <img src="${prod.img}" alt="${prod.nome}" onclick="abrirModalProduto(${prod.id})">
             <h3 onclick="abrirModalProduto(${prod.id})">${prod.nome}</h3>
             <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
 
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-              <div class="card-acoes-carrinho">
-                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>` : ''}
-                <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
-                  ${qtdNoCarrinho > 0 ? '➕ Adicionar Mais' : '+ Adicionar'}
-                </button>
-                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>` : ''}
-              </div>
-
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              ${acaoHTML}
               <button class="btn btn-detalhes" onclick="abrirModalProduto(${prod.id})">Ver Detalhes</button>
             </div>
           </div>
@@ -744,21 +768,8 @@
       });
     }
 
-    // Atualiza os contadores dos cards
+    // Atualiza os cards mantendo o estado de busca
     function atualizarBadgesCards() {
-      produtos.forEach(prod => {
-        const qtd = getQtdNoCarrinho(prod.id);
-        const badge = document.getElementById(`badge-prod-${prod.id}`);
-        if (badge) {
-          if (qtd > 0) {
-            badge.innerText = `${qtd} no carrinho`;
-            badge.style.display = "block";
-          } else {
-            badge.style.display = "none";
-          }
-        }
-      });
-      
       const campoBusca = document.getElementById("campo-busca");
       const termo = campoBusca ? campoBusca.value.toLowerCase().trim() : "";
       if (termo === "") {
@@ -773,7 +784,7 @@
     function filtrarProdutos() {
       const campo = document.getElementById("campo-busca");
       if (!campo) return;
-      
+
       const termo = campo.value.toLowerCase().trim();
       if (termo === "") {
         carregarProdutos(produtos);
@@ -849,133 +860,4 @@
       const item = carrinho.find(item => item.id === id);
       if (item) {
         item.quantidade += delta;
-        if (item.quantidade <= 0) {
-          carrinho = carrinho.filter(i => i.id !== id);
-        }
-      }
-      atualizarCarrinho();
-    }
-
-    function atualizarCarrinho() {
-      const qtdTotal = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-      const totalValor = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-
-      document.getElementById("qtd-itens").innerText = qtdTotal;
-      document.getElementById("total-valor").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
-      document.getElementById("modal-carrinho-total").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
-
-      atualizarBadgesCards();
-
-      const containerItens = document.getElementById("conteudo-carrinho-itens");
-      if (!containerItens) return;
-
-      if (carrinho.length === 0) {
-        containerItens.innerHTML = "<p style='text-align: center; color: var(--text-muted);'>Seu carrinho está vazio.</p>";
-      } else {
-        containerItens.innerHTML = "";
-        carrinho.forEach(item => {
-          containerItens.innerHTML += `
-            <div class="item-carrinho">
-              <img src="${item.img}" alt="${item.nome}">
-              <div class="item-carrinho-detalhes">
-                <h4>${item.nome}</h4>
-                <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
-              </div>
-              <div class="qtd-controle">
-                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, -1)">-</button>
-                <span>${item.quantidade}</span>
-                <button class="btn-qtd" onclick="alterarQuantidade(${item.id}, 1)">+</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-    }
-
-    // Controlo de Modais
-    function abrirModalCarrinho() {
-      atualizarCarrinho();
-      document.getElementById("modal-carrinho").style.display = "flex";
-    }
-
-    function fecharModalCarrinho() {
-      document.getElementById("modal-carrinho").style.display = "none";
-    }
-
-    function avancarParaCheckout() {
-      if (carrinho.length === 0) {
-        alert("Adicione pelo menos um produto ao carrinho antes de continuar!");
-        return;
-      }
-      fecharModalCarrinho();
-      abrirCheckout();
-    }
-
-    function abrirCheckout() {
-      document.getElementById("modal-checkout").style.display = "flex";
-    }
-
-    function fecharCheckout() {
-      document.getElementById("modal-checkout").style.display = "none";
-    }
-
-    function alternarPagamento() {
-      const metodo = document.getElementById("metodo-pagamento").value;
-      const caixaPix = document.getElementById("caixa-pix");
-      const caixaTroco = document.getElementById("caixa-troco");
-
-      if (caixaPix) caixaPix.style.display = (metodo === "pix") ? "block" : "none";
-      if (caixaTroco) caixaTroco.style.display = (metodo === "dinheiro") ? "block" : "none";
-    }
-
-    // Processamento do Pedido
-    function processarPedido() {
-      const nome = document.getElementById("nome-cliente").value;
-      const endereco = document.getElementById("endereco-cliente").value;
-      const bairro = document.getElementById("bairro-cliente").value;
-      const referencia = document.getElementById("referencia-cliente").value;
-      const metodo = document.getElementById("metodo-pagamento").value;
-      const troco = document.getElementById("troco-cliente") ? document.getElementById("troco-cliente").value : "";
-
-      if (!nome || !endereco || !bairro) {
-        alert("Por favor, preencha seu nome, endereço e bairro!");
-        return;
-      }
-
-      const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-      const listaItens = carrinho.map(i => `- ${i.quantidade}x ${i.nome} (R$ ${(i.preco * i.quantidade).toFixed(2)})`).join('\n');
-
-      let textoPagamento = "";
-      if (metodo === 'pix') {
-        textoPagamento = "PIX Realizado no Site";
-      } else if (metodo === 'dinheiro') {
-        textoPagamento = troco ? `Dinheiro (Troco para R$ ${troco})` : "Dinheiro (Sem troco)";
-      } else {
-        textoPagamento = "A combinar / WhatsApp";
-      }
-
-      const zap = "5569984560482";
-      let mensagem = `*NOVO PEDIDO - NorteTech Express*\n\n`;
-      mensagem += `*Cliente:* ${nome}\n`;
-      mensagem += `*Endereço:* ${endereco}\n`;
-      mensagem += `*Bairro:* ${bairro}\n`;
-      if (referencia) mensagem += `*Ponto de Ref.:* ${referencia}\n`;
-      mensagem += `\n*Itens do Pedido:*\n${listaItens}\n\n`;
-      mensagem += `*Subtotal dos Produtos:* R$ ${total.toFixed(2)}\n`;
-      mensagem += `*Taxa de Entrega:* Informar / Negociar Frete para o Bairro ${bairro}\n`;
-      mensagem += `*Forma de Pagamento:* ${textoPagamento}`;
-
-      window.open(`https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`, '_blank');
-
-      carrinho = [];
-      atualizarCarrinho();
-      fecharCheckout();
-    }
-
-    // Inicialização
-    document.addEventListener("DOMContentLoaded", function() {
-      carregarProdutos(produtos);
-    });
-  </script>
-</body>
-</html>
+        if (item.quantidade
