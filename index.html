@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NorteTech Express | Loja Virtual Porto Velho</title>
   <style>
-    /* PALETA RECOMENDADA: Sofisticado & Executivo (Laranja, Verde Marinho e Cinza Escuro) */
+    /* PALETA: Sofisticado & Executivo (Laranja, Verde Marinho e Cinza Escuro) */
     :root {
-      --bg-main: #0b1317;        /* Cinza petróleo escuro (Fundo geral) */
-      --bg-card: #142129;        /* Fundo dos cards, modais e cabeçalho */
-      --bg-hover: #1b2a34;       /* Tom para hover e realces */
-      --border-color: #233642;   /* Bordas e linhas separadoras */
-      --orange-main: #f97316;    /* Laranja vibrante (Ações principais, botões, destaques) */
-      --orange-hover: #ea580c;   /* Laranja escuro (Hover dos botões principais) */
-      --teal-accent: #0d9488;    /* Verde Marinho profundo (Badges, acentos e bordas de foco) */
-      --teal-light: #14b8a6;     /* Verde Marinho claro (Notificações toast) */
-      --text-main: #f8fafc;      /* Texto principal claro */
-      --text-muted: #94a3b8;     /* Texto secundário e descrições */
+      --bg-main: #0b1317;        /* Cinza petróleo escuro */
+      --bg-card: #142129;        /* Fundo dos cards e modais */
+      --bg-hover: #1b2a34;       /* Tom para hover */
+      --border-color: #233642;   /* Bordas */
+      --orange-main: #f97316;    /* Laranja vibrante */
+      --orange-hover: #ea580c;   /* Laranja escuro */
+      --teal-accent: #0d9488;    /* Verde Marinho profundo */
+      --teal-light: #14b8a6;     /* Verde Marinho claro */
+      --text-main: #f8fafc;      /* Texto principal */
+      --text-muted: #94a3b8;     /* Texto secundário */
     }
 
     * {
@@ -29,7 +29,7 @@
     body {
       background-color: var(--bg-main);
       color: var(--text-main);
-      padding-bottom: 90px;
+      padding-bottom: 30px;
     }
 
     header {
@@ -119,7 +119,7 @@
 
     .produtos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 20px;
     }
 
@@ -132,14 +132,28 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      cursor: pointer;
+      position: relative;
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
 
     .card-produto:hover {
-      transform: translateY(-4px);
       border-color: var(--orange-main);
-      box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.2);
+      box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.15);
+    }
+
+    /* Badge de quantidade no card do produto */
+    .badge-qtd-card {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--teal-accent);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      display: none;
     }
 
     .card-produto img {
@@ -148,12 +162,14 @@
       object-fit: cover;
       border-radius: 10px;
       margin-bottom: 12px;
+      cursor: pointer;
     }
 
     .card-produto h3 {
       font-size: 1.05rem;
       margin-bottom: 6px;
       color: #f8fafc;
+      cursor: pointer;
     }
 
     .card-produto .preco {
@@ -170,7 +186,7 @@
       cursor: pointer;
       font-weight: bold;
       width: 100%;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       transition: background-color 0.2s, transform 0.1s;
       display: flex;
       align-items: center;
@@ -201,6 +217,35 @@
       background-color: var(--orange-hover);
     }
 
+    /* Ações Rápidas de Quantidade no Card */
+    .card-acoes-carrinho {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-card-qtd {
+      background-color: var(--bg-hover);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .btn-card-qtd:hover {
+      background-color: var(--teal-accent);
+      border-color: var(--teal-accent);
+      color: #fff;
+    }
+
     .btn-zap-direto {
       background-color: #25d366;
       color: white;
@@ -218,42 +263,68 @@
       color: white;
     }
 
-    /* Barra Fixa do Carrinho no Rodapé */
-    .carrinho-bar {
+    /* BOTÃO FLUTUANTE DO CARRINHO (DESIGN CLEAN E ELEGANTE) */
+    .carrinho-flutuante {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: var(--bg-card);
-      border-top: 1px solid var(--border-color);
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 -8px 20px rgba(0,0,0,0.6);
-      z-index: 90;
-    }
-
-    .carrinho-info {
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .carrinho-badge {
-      background: var(--teal-accent);
+      bottom: 25px;
+      left: 25px;
+      background: linear-gradient(135deg, var(--orange-main), var(--orange-hover));
       color: #ffffff;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+      cursor: pointer;
+      z-index: 150;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .carrinho-info span.total {
-      color: var(--orange-main);
+    .carrinho-flutuante:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(249, 115, 22, 0.5);
+    }
+
+    .carrinho-flutuante-icone {
+      font-size: 1.3rem;
+      position: relative;
+    }
+
+    .carrinho-flutuante-badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background-color: var(--teal-accent);
+      color: #ffffff;
+      font-size: 0.75rem;
       font-weight: bold;
-      font-size: 1.15rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg-card);
+    }
+
+    .carrinho-flutuante-texto {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .carrinho-flutuante-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .carrinho-flutuante-total {
+      font-weight: 800;
+      font-size: 1rem;
     }
 
     /* Modais */
@@ -429,7 +500,7 @@
     /* Botão Flutuante do WhatsApp */
     .btn-whatsapp-flutuante {
       position: fixed;
-      bottom: 80px;
+      bottom: 25px;
       right: 20px;
       background-color: #25d366;
       color: #fff;
@@ -442,6 +513,7 @@
       z-index: 1000;
       transition: transform 0.2s ease;
     }
+
     .btn-whatsapp-flutuante:hover {
       transform: scale(1.05);
     }
@@ -476,14 +548,16 @@
     </div>
   </div>
 
-  <!-- Barra Fixa do Carrinho no Rodapé -->
-  <div class="carrinho-bar">
-    <div class="carrinho-info" onclick="abrirModalCarrinho()" style="cursor: pointer;">
-      🛒 <strong>Carrinho:</strong> 
-      <span class="carrinho-badge" id="qtd-itens">0</span>
-      <span class="total" id="total-valor">R$ 0,00</span>
+  <!-- BOTÃO FLUTUANTE DO CARRINHO (SUBSTITUI A BARRA FIXA) -->
+  <div class="carrinho-flutuante" id="btn-carrinho-flutuante" onclick="abrirModalCarrinho()">
+    <div class="carrinho-flutuante-icone">
+      🛒
+      <span class="carrinho-flutuante-badge" id="qtd-itens">0</span>
     </div>
-    <button class="btn btn-comprar" onclick="abrirModalCarrinho()">Ver Carrinho</button>
+    <div class="carrinho-flutuante-texto">
+      <span class="carrinho-flutuante-label">Seu Carrinho</span>
+      <span class="carrinho-flutuante-total" id="total-valor">R$ 0,00</span>
+    </div>
   </div>
 
   <!-- Modal do Frete -->
@@ -623,6 +697,12 @@
     let carrinho = [];
     let produtoSelecionado = null;
 
+    // Retorna a quantidade de um produto específico no carrinho
+    function getQtdNoCarrinho(id) {
+      const item = carrinho.find(i => i.id === id);
+      return item ? item.quantidade : 0;
+    }
+
     // Renderização dos Produtos na Vitrine
     function carregarProdutos(lista = produtos) {
       const container = document.getElementById("lista-produtos");
@@ -635,17 +715,58 @@
       }
 
       lista.forEach(prod => {
+        const qtdNoCarrinho = getQtdNoCarrinho(prod.id);
+        const badgeDisplay = qtdNoCarrinho > 0 ? "block" : "none";
+
         container.innerHTML += `
-          <div class="card-produto" onclick="abrirModalProduto(${prod.id})">
-            <div>
-              <img src="${prod.img}" alt="${prod.nome}">
-              <h3>${prod.nome}</h3>
-              <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
+          <div class="card-produto">
+            <span class="badge-qtd-card" id="badge-prod-${prod.id}" style="display: ${badgeDisplay};">
+              ${qtdNoCarrinho} no carrinho
+            </span>
+
+            <img src="${prod.img}" alt="${prod.nome}" onclick="abrirModalProduto(${prod.id})">
+            <h3 onclick="abrirModalProduto(${prod.id})">${prod.nome}</h3>
+            <p class="preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div class="card-acoes-carrinho">
+                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>` : ''}
+                <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
+                  ${qtdNoCarrinho > 0 ? '➕ Adicionar Mais' : '+ Adicionar'}
+                </button>
+                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>` : ''}
+              </div>
+
+              <button class="btn btn-detalhes" onclick="abrirModalProduto(${prod.id})">Ver Detalhes</button>
             </div>
-            <button class="btn btn-detalhes">Ver Detalhes</button>
           </div>
         `;
       });
+    }
+
+    // Atualiza apenas os contadores de cada card sem recriar toda a lista
+    function atualizarBadgesCards() {
+      produtos.forEach(prod => {
+        const qtd = getQtdNoCarrinho(prod.id);
+        const badge = document.getElementById(`badge-prod-${prod.id}`);
+        if (badge) {
+          if (qtd > 0) {
+            badge.innerText = `${qtd} no carrinho`;
+            badge.style.display = "block";
+          } else {
+            badge.style.display = "none";
+          }
+        }
+      });
+      // Recarrega a vitrine para atualizar os botões de + / -
+      const campoBusca = document.getElementById("campo-busca");
+      const termo = campoBusca ? campoBusca.value.toLowerCase().trim() : "";
+      if (termo === "") {
+        carregarProdutos(produtos);
+      } else {
+        const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+        carregarProdutos(filtrados);
+      }
     }
 
     // Filtro da Barra de Pesquisa
@@ -654,7 +775,6 @@
       if (!campo) return;
       
       const termo = campo.value.toLowerCase().trim();
-      
       if (termo === "") {
         carregarProdutos(produtos);
       } else {
@@ -709,7 +829,7 @@
       toast.style.display = "block";
       setTimeout(() => {
         toast.style.display = "none";
-      }, 2500);
+      }, 2000);
     }
 
     // Carrinho
@@ -744,6 +864,9 @@
       document.getElementById("total-valor").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
       document.getElementById("modal-carrinho-total").innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
 
+      // Atualiza visualização no card do produto
+      atualizarBadgesCards();
+
       const containerItens = document.getElementById("conteudo-carrinho-itens");
       if (!containerItens) return;
 
@@ -770,7 +893,7 @@
       }
     }
 
-    // Controls de Modais
+    // Controlo de Modais
     function abrirModalCarrinho() {
       atualizarCarrinho();
       document.getElementById("modal-carrinho").style.display = "flex";
