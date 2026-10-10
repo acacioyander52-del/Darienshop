@@ -82,12 +82,17 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 0.8rem;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-frete-info:hover {
       background-color: var(--orange-hover);
-      transform: scale(1.02);
+      transform: scale(1.06) translateY(-1px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    .btn-frete-info:active {
+      transform: scale(0.95);
     }
 
     .container {
@@ -109,12 +114,13 @@
       background-color: var(--bg-card);
       color: white;
       font-size: 0.95rem;
-      transition: border-color 0.2s;
+      transition: all 0.3s ease;
     }
 
     .busca-input:focus {
       outline: none;
       border-color: var(--teal-accent);
+      box-shadow: 0 0 12px rgba(13, 148, 136, 0.25);
     }
 
     .produtos-grid {
@@ -133,12 +139,14 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .card-produto:hover {
       border-color: var(--orange-main);
-      box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px -5px rgba(249, 115, 22, 0.2);
     }
 
     /* Badge de quantidade no card do produto */
@@ -154,6 +162,12 @@
       border-radius: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       display: none;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .card-produto img {
@@ -163,6 +177,11 @@
       border-radius: 10px;
       margin-bottom: 12px;
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .card-produto img:hover {
+      transform: scale(1.04);
     }
 
     .card-produto h3 {
@@ -170,6 +189,11 @@
       margin-bottom: 6px;
       color: #f8fafc;
       cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .card-produto h3:hover {
+      color: var(--orange-main);
     }
 
     .card-produto .preco {
@@ -179,6 +203,7 @@
       margin-bottom: 14px;
     }
 
+    /* Estilização Geral dos Botões com Animações de Mini Zoom */
     .btn {
       padding: 11px 16px;
       border: none;
@@ -187,7 +212,7 @@
       font-weight: bold;
       width: 100%;
       margin-bottom: 6px;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -195,7 +220,12 @@
     }
 
     .btn:hover {
-      opacity: 0.95;
+      transform: scale(1.03) translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
     }
 
     .btn-detalhes {
@@ -206,6 +236,7 @@
 
     .btn-detalhes:hover {
       border-color: var(--teal-accent);
+      background-color: var(--border-color);
     }
 
     .btn-carrinho {
@@ -215,13 +246,15 @@
 
     .btn-carrinho:hover {
       background-color: var(--orange-hover);
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
     }
 
-    /* Ações Rápidas de Quantidade no Card */
+    /* Ações Rápidas de Quantidade no Card com Animações */
     .card-acoes-carrinho {
       display: flex;
       align-items: center;
       gap: 6px;
+      width: 100%;
     }
 
     .btn-card-qtd {
@@ -237,18 +270,42 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s, border-color 0.2s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-card-qtd:hover {
       background-color: var(--teal-accent);
       border-color: var(--teal-accent);
       color: #fff;
+      transform: scale(1.1);
+    }
+
+    .btn-card-qtd:active {
+      transform: scale(0.9);
+    }
+
+    .qtd-display-card {
+      flex: 1;
+      background-color: var(--teal-accent);
+      color: #ffffff;
+      padding: 9px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
     }
 
     .btn-zap-direto {
       background-color: #25d366;
       color: white;
+    }
+
+    .btn-zap-direto:hover {
+      background-color: #1ea952;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
     }
 
     .btn-comprar {
@@ -263,7 +320,12 @@
       color: white;
     }
 
-    /* BOTÃO FLUTUANTE DO CARRINHO (DESIGN CLEAN E ELEGANTE) */
+    .btn-fechar:hover {
+      background-color: #dc2626;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    /* BOTÃO FLUTUANTE DO CARRINHO */
     .carrinho-flutuante {
       position: fixed;
       bottom: 25px;
@@ -278,13 +340,17 @@
       box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
       cursor: pointer;
       z-index: 150;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .carrinho-flutuante:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(249, 115, 22, 0.5);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 14px 32px rgba(249, 115, 22, 0.55);
+    }
+
+    .carrinho-flutuante:active {
+      transform: scale(0.95);
     }
 
     .carrinho-flutuante-icone {
@@ -327,7 +393,7 @@
       font-size: 1rem;
     }
 
-    /* Modais */
+    /* Modais com Animação de Entrada */
     .modal {
       display: none;
       position: fixed;
@@ -338,6 +404,7 @@
       align-items: center;
       z-index: 200;
       padding: 15px;
+      backdrop-filter: blur(4px);
     }
 
     .modal-content {
@@ -349,6 +416,12 @@
       max-height: 90vh;
       overflow-y: auto;
       border: 1px solid var(--border-color);
+      animation: modalFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.9) translateY(15px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-header {
@@ -366,6 +439,12 @@
       color: var(--text-muted);
       font-size: 1.5rem;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-x:hover {
+      color: #ef4444;
+      transform: scale(1.2) rotate(90deg);
     }
 
     /* Lista Detalhada do Carrinho */
@@ -417,16 +496,22 @@
       background: var(--border-color);
       color: white;
       border: none;
-      width: 26px;
-      height: 26px;
-      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     .btn-qtd:hover {
       background: var(--teal-accent);
       color: #ffffff;
+      transform: scale(1.15);
+    }
+
+    .btn-qtd:active {
+      transform: scale(0.9);
     }
 
     /* Modal de Detalhes do Produto */
@@ -453,6 +538,7 @@
       border: 1px solid var(--border-color);
       background: var(--bg-main);
       color: white;
+      transition: border-color 0.2s;
     }
 
     .modal-content input:focus, .modal-content select:focus {
@@ -476,7 +562,7 @@
       font-size: 0.9rem;
     }
 
-    /* Notificação Toast */
+    /* Notificação Toast Animada */
     .toast-notificacao {
       position: fixed;
       top: 20px;
@@ -486,15 +572,15 @@
       padding: 12px 20px;
       border-radius: 8px;
       font-weight: bold;
-      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.45);
       z-index: 300;
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: toastSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes toastSlideIn {
+      from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     /* Botão Flutuante do WhatsApp */
@@ -509,13 +595,18 @@
       text-decoration: none;
       font-weight: bold;
       font-size: 0.9rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
       z-index: 1000;
-      transition: transform 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .btn-whatsapp-flutuante:hover {
-      transform: scale(1.05);
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 22px rgba(37, 211, 102, 0.45);
+    }
+
+    .btn-whatsapp-flutuante:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
@@ -718,6 +809,22 @@
         const qtdNoCarrinho = getQtdNoCarrinho(prod.id);
         const badgeDisplay = qtdNoCarrinho > 0 ? "block" : "none";
 
+        // HTML dinâmico das Ações do Card
+        let acoesHTML = "";
+        if (qtdNoCarrinho > 0) {
+          acoesHTML = `
+            <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>
+            <div class="qtd-display-card">${qtdNoCarrinho} no carrinho</div>
+            <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>
+          `;
+        } else {
+          acoesHTML = `
+            <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
+              + Adicionar
+            </button>
+          `;
+        }
+
         container.innerHTML += `
           <div class="card-produto">
             <span class="badge-qtd-card" id="badge-prod-${prod.id}" style="display: ${badgeDisplay};">
@@ -730,11 +837,7 @@
 
             <div style="display: flex; flex-direction: column; gap: 6px;">
               <div class="card-acoes-carrinho" id="card-acoes-${prod.id}">
-                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>` : ''}
-                <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
-                  ${qtdNoCarrinho > 0 ? `➕ (${qtdNoCarrinho}) Adicionar Mais` : '+ Adicionar'}
-                </button>
-                ${qtdNoCarrinho > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>` : ''}
+                ${acoesHTML}
               </div>
 
               <button class="btn btn-detalhes" onclick="abrirModalProduto(${prod.id})">Ver Detalhes</button>
@@ -744,7 +847,7 @@
       });
     }
 
-    // Atualiza os selos (badges) e o texto dos botões diretamente nos cards sem reconstruir o HTML da página
+    // Atualiza os seletores de quantidade sem destruir a grade ou interferir na busca
     function atualizarBadgesCards() {
       produtos.forEach(prod => {
         const qtd = getQtdNoCarrinho(prod.id);
@@ -761,13 +864,19 @@
         }
 
         if (containerAcoes) {
-          containerAcoes.innerHTML = `
-            ${qtd > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>` : ''}
-            <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
-              ${qtd > 0 ? `➕ (${qtd}) Adicionar Mais` : '+ Adicionar'}
-            </button>
-            ${qtd > 0 ? `<button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>` : ''}
-          `;
+          if (qtd > 0) {
+            containerAcoes.innerHTML = `
+              <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, -1)">-</button>
+              <div class="qtd-display-card">${qtd} no carrinho</div>
+              <button class="btn-card-qtd" onclick="alterarQuantidade(${prod.id}, 1)">+</button>
+            `;
+          } else {
+            containerAcoes.innerHTML = `
+              <button class="btn btn-carrinho" style="margin-bottom: 0;" onclick="adicionarAoCarrinho(${prod.id})">
+                + Adicionar
+              </button>
+            `;
+          }
         }
       });
     }
